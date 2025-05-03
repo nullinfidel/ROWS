@@ -120,21 +120,25 @@ jobs:
         gzip -d *.gz && exit 0
         gzip --best *.img
         ls -Ahl
-        sha256sum openwrt*r2s* | tee R2S-GC404-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
-        zip R2S-GC404-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r2s*ext4*
-        zip R2S-GC404-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r2s*squashfs*
+        sha256sum openwrt*r2s* | tee R2S-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        zip R2S-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r2s*squashfs*
         ls -Ahl
-    - name: Create release
-      id: create_release
-      uses: ncipollo/release-action@main
+    - name: Upload artifact
+      uses: actions/upload-artifact@main
       with:
-        name: OpenWRT-${{ env.latest_release }}
-        allowUpdates: true
-        prerelease: false
-        tag: ${{ env.latest_release }}
-        commit: "24.10"
-        replacesArtifacts: true
-        token: ${{ secrets.GITHUB_TOKEN }}
-        artifacts: ./artifact/*.zip
+        name: OpenWRT_${{ env.latest_release }}
+        path: ./artifact/
+    #- name: Create release
+    #  id: create_release
+    #  uses: ncipollo/release-action@main
+    #  with:
+    #    name: OpenWRT-${{ env.latest_release }}
+    #    allowUpdates: true
+    #    prerelease: false
+    #    tag: ${{ env.latest_release }}
+    #    commit: "24.10"
+    #    replacesArtifacts: true
+    #    token: ${{ secrets.GITHUB_TOKEN }}
+    #    artifacts: ./artifact/*.zip
     - name: Print Disk Space After
       run: df -h
