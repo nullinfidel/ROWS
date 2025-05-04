@@ -118,6 +118,7 @@ jobs:
         cd ./artifact/
         gzip -d *.gz && exit 0
         gzip --best *.img
+        rm -rf ./*r2s-ext4*.gz
         sha256sum openwrt*r2s* | tee R2S-${{ env.latest_release }}.sha256sum
         ls -Ahl
     - name: Upload artifact
