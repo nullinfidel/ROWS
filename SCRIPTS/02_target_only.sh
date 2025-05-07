@@ -8,8 +8,9 @@ sed -i 's,-mcpu=generic,-march=armv8-a,g' include/target.mk
 sed -i 's,"eth1" "eth0","eth0" "eth1",g' target/linux/rockchip/armv8/base-files/etc/board.d/02_network
 sed -i "s,'eth1' 'eth0','eth0' 'eth1',g" target/linux/rockchip/armv8/base-files/etc/board.d/02_network
 
-# 初始化IP
+# 初始化默认IP和主机名
 sed -i 's/192.168/172.16/g' package/base-files/files/bin/config_generate
+sed -i 's/OpenWrt/Natbox/g' package/base-files/files/bin/config_generate
 
 # remove LRNG for 3328
 rm -f target/linux/generic/hack-6.6/696*
